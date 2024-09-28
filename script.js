@@ -1,19 +1,125 @@
 
 
 // PERSONA PAGE 
-// Function to check persona selection and enable/disable the continue button
-function checkPersonaSelection() {
+// Descriptions for tooltips
+var criteriaDescriptions = {
+    "Educational Effectiveness (EE)": "Measures how well the technology improves learning outcomes.",
+    "Curriculum Alignment (CUA)": "Assesses how closely the technology aligns with the curriculum.",
+    "Student Engagement and Outcomes (SEO)": "Tracks the technology's impact on student engagement and performance.",
+    "Personalization and Adaptive Learning (PAL)": "Evaluates the extent of personalized and adaptive learning capabilities.",
+    "Accessibility (ACC)": "Considers how accessible the technology is to diverse student populations.",
+    "Technology Literacy Requirements (TLR)": "Measures the level of technical literacy needed to use the technology.",
+    "Financial Considerations (FIN)": "Evaluates the financial impact and cost-effectiveness of the technology.",
+    "Scalability and Economies of Scale (SES)": "Considers how scalable the technology is and the benefits of mass adoption.",
+    "Technological Readiness (TR)": "Assesses how ready the technology is for deployment in a large-scale educational environment.",
+    "Standardization and Compatibility (SC)": "Evaluates the technology's compatibility with existing systems and standards.",
+    "Ethical and Data Considerations (EDC)": "Considers the ethical and data security implications of the technology.",
+    "Ecosystem Support and Network Effects (ES)": "Evaluates the support available and the network effects of adopting the technology.",
+    "Professional Development Needs (PD)": "Assesses the training and professional development needed to use the technology.",
+    "Facilitating Conditions (FAC)": "Considers the conditions that enable or hinder the use of the technology.",
+    "Strategic Partnerships (SP)": "Evaluates the technology's backing by industry partnerships.",
+    "Change Management and Cultural Acceptance (CMCA)": "Assesses how well the technology fits into organizational culture and readiness for change."
+};
+
+// Weights for each persona
+var weights = {
+    "Primary Students": [5, 4, 5, 5, 5, 3, 5, 3, 3, 2, 2, 3, 1, 3, 1, 3],
+    "Secondary Students": [5, 5, 5, 5, 5, 4, 5, 4, 4, 4, 4, 4, 2, 4, 2, 4],
+    "Tertiary Students": [5, 4, 5, 5, 5, 4, 4, 4, 4, 4, 5, 4, 2, 4, 3, 4],
+    "Parents": [5, 4, 5, 5, 5, 3, 5, 3, 4, 3, 5, 3, 2, 4, 2, 3],
+    "Primary Teachers": [5, 5, 5, 4, 5, 3, 4, 3, 4, 3, 5, 4, 5, 4, 3, 4],
+    "Secondary Teachers": [5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 5, 4, 5, 4, 4, 4],
+    "University Lecturers": [5, 4, 5, 4, 5, 4, 3, 3, 4, 4, 5, 4, 5, 4, 5, 4],
+    "Administrators": [5, 5, 5, 4, 5, 4, 5, 5, 5, 5, 5, 4, 4, 5, 5, 5]
+};
+
+// Criteria list (order matches the weights array)
+var criteria = [
+    "Educational Effectiveness (EE)",
+    "Curriculum Alignment (CUA)",
+    "Student Engagement and Outcomes (SEO)",
+    "Personalization and Adaptive Learning (PAL)",
+    "Accessibility (ACC)",
+    "Technology Literacy Requirements (TLR)",
+    "Financial Considerations (FIN)",
+    "Scalability and Economies of Scale (SES)",
+    "Technological Readiness (TR)",
+    "Standardization and Compatibility (SC)",
+    "Ethical and Data Considerations (EDC)",
+    "Ecosystem Support and Network Effects (ES)",
+    "Professional Development Needs (PD)",
+    "Facilitating Conditions (FAC)",
+    "Strategic Partnerships (SP)",
+    "Change Management and Cultural Acceptance (CMCA)"
+];
+
+// Function to update the table based on persona selection and highlight selected rows
+function updateTableAndHighlight() {
     var persona = document.getElementById("persona-select").value;
     var continueButton = document.getElementById("continue-button");
-
+    
     if (persona !== "") {
-        continueButton.disabled = false; // Enable button if a persona is selected
+        continueButton.disabled = false;
     } else {
-        continueButton.disabled = true;  // Keep button disabled if no persona is selected
+        continueButton.disabled = true;
     }
+
+    // Get the weights for the selected persona
+    var personaWeights = weights[persona];
+
+    // Combine criteria and weights into an array of objects
+    var data = criteria.map(function(criterion, index) {
+        return {
+            criterion: criterion,
+            weight: personaWeights[index]
+        };
+    });
+
+    // Sort the data by weight (descending)
+    data.sort(function(a, b) {
+        return b.weight - a.weight;
+    });
+
+    // Update the table body
+    var tableBody = document.getElementById("table-body");
+    tableBody.innerHTML = ""; // Clear current table rows
+
+    data.forEach(function(item) {
+        var row = document.createElement("tr");
+        var criteriaCell = document.createElement("td");
+        var weightCell = document.createElement("td");
+
+        // Set cell content
+        criteriaCell.textContent = item.criterion;
+        weightCell.textContent = item.weight;
+
+        // Add tooltip to criteria cell
+        criteriaCell.setAttribute("title", criteriaDescriptions[item.criterion]);
+
+        // Add click event to highlight row
+        row.onclick = function() {
+            clearHighlighting();
+            row.classList.add("highlight");
+        };
+
+        // Append cells to row
+        row.appendChild(criteriaCell);
+        row.appendChild(weightCell);
+
+        // Append row to table body
+        tableBody.appendChild(row);
+    });
 }
 
-// Function to navigate to the CriteronPage and store the selected persona
+// Function to clear row highlighting
+function clearHighlighting() {
+    var rows = document.querySelectorAll("#persona-table tr");
+    rows.forEach(function(row) {
+        row.classList.remove("highlight");
+    });
+}
+
+// Function to navigate to the next page (CriteronPage)
 function goToNextPage() {
     var persona = document.getElementById("persona-select").value;
 
@@ -23,6 +129,7 @@ function goToNextPage() {
     // Redirect to CriteronPage.html
     window.location.href = 'CriteronPage.html';
 }
+
 
 // CRITERION PAGE
 
