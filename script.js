@@ -118,6 +118,9 @@ function sortTableByPersona() {
 
         tableBody.appendChild(row);
     });
+
+    // Reapply tooltips (in case they were cleared)
+    applyTooltips();
 }
 
 // Function to highlight the selected persona column
@@ -136,10 +139,32 @@ function highlightColumn(persona) {
 
     // Highlight the corresponding column
     if (columnIndex > -1) {
-        document.querySelectorAll(`#persona-table tr td:nth-child(${columnIndex + 1})`).forEach(cell => {
+        document.querySelectorAll(`#persona-table tr td:nth-child(${columnIndex + 2})`).forEach(cell => {
             cell.classList.add('highlight');
         });
     }
+}
+
+// Function to apply tooltips
+function applyTooltips() {
+    document.querySelectorAll('[title]').forEach(item => {
+        item.addEventListener('mouseover', function () {
+            const tooltipText = this.getAttribute('title');
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            tooltip.innerHTML = tooltipText;
+            document.body.appendChild(tooltip);
+
+            // Positioning
+            const rect = this.getBoundingClientRect();
+            tooltip.style.top = `${rect.top + window.scrollY - 30}px`;
+            tooltip.style.left = `${rect.left + window.scrollX}px`;
+
+            this.addEventListener('mouseout', function () {
+                tooltip.remove();
+            });
+        });
+    });
 }
 
 function goToNextPage() {
