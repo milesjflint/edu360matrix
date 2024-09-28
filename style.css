@@ -70,6 +70,7 @@ button:disabled {
 /* Persona Page Styles */
 /* ------------------- */
 
+/* General page styling */
 #persona-main {
     padding: 20px;
     margin: 20px auto;
@@ -83,8 +84,10 @@ button:disabled {
     padding: 10px;
     font-size: 1rem;
     margin: 20px 0;
+    width: 100%;  /* Ensures dropdown is 100% width */
 }
 
+/* Table styling */
 #persona-main table {
     width: 100%;
     border-collapse: collapse;
@@ -95,22 +98,13 @@ button:disabled {
     padding: 10px;
     border: 1px solid #ccc;
     text-align: center;
+    transition: background-color 0.3s ease;  /* Smooth transition for hover/highlight effects */
 }
 
-/* Continue Button */
-#continue-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+#persona-main th {
+    background-color: #f2f2f2;
 }
 
-#continue-button[disabled] {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
 /* Highlight selected rows */
 .highlight {
     background-color: #4CAF50;
@@ -137,6 +131,34 @@ td[title]:hover::after {
     white-space: nowrap;
     z-index: 10;
 }
+
+/* Tooltip positioning to avoid overflow */
+td[title]:hover::after {
+    max-width: 250px;  /* Ensures tooltip text doesn't exceed this width */
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* Continue Button */
+#continue-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#continue-button:hover {
+    background-color: #45a049;
+}
+
+#continue-button[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
 
 
 /* --------------------- */
