@@ -9,7 +9,7 @@ function checkPersonaSelection() {
     if (persona !== "") {
         continueButton.disabled = false; // Enable button if a persona is selected
     } else {
-        continueButton.disabled = true;  // Keep button disabled if "See table below" is selected
+        continueButton.disabled = true;  // Keep button disabled if no persona is selected
     }
 }
 
@@ -17,7 +17,6 @@ function checkPersonaSelection() {
 function goToNextPage() {
     window.location.href = 'CriteronPage.html';
 }
-
 
 // CRITERION PAGE
 
