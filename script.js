@@ -62,7 +62,7 @@ function populateTable() {
         const row = document.createElement('tr');
 
         const criteriaCell = document.createElement('td');
-        criteriaCell.textContent = criterion;  // Display the criterion name (not an object)
+        criteriaCell.textContent = criterion;  // Display the criterion name
         criteriaCell.setAttribute('title', criteriaDescriptions[criterion]); // Tooltip
 
         row.appendChild(criteriaCell);
@@ -75,7 +75,11 @@ function populateTable() {
 
         tableBody.appendChild(row);
     });
+
+    // Apply tooltips after creating the table
+    applyTooltips();
 }
+
 
 // Sorting and highlighting
 function sortTableByPersona() {
@@ -139,11 +143,15 @@ function highlightColumn(persona) {
 
     // Highlight the corresponding column
     if (columnIndex > -1) {
-        document.querySelectorAll(`#persona-table tr td:nth-child(${columnIndex + 2})`).forEach(cell => {
-            cell.classList.add('highlight');
+        document.querySelectorAll(`#persona-table tr`).forEach(row => {
+            const cell = row.querySelectorAll('td')[columnIndex];
+            if (cell) {
+                cell.classList.add('highlight');
+            }
         });
     }
 }
+
 
 // Function to apply tooltips
 function applyTooltips() {
