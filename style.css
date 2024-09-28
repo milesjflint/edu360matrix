@@ -1,0 +1,168 @@
+/* Global Styles */
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+h2, h3 {
+    color: #333;
+}
+
+button {
+    padding: 10px;
+    margin: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Page-specific Styles */
+
+/* ----------------- */
+/* Home Page Styles */
+/* ----------------- */
+
+#home-header {
+    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+}
+
+#home-main {
+    text-align: center;
+    padding: 40px;
+    margin-top: 20px;
+    background-color: white;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#home-main p {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+#home-main button {
+    font-size: 1.2rem;
+    padding: 15px 30px;
+    margin-top: 20px;
+}
+
+/* ------------------- */
+/* Persona Page Styles */
+/* ------------------- */
+
+#persona-main {
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 800px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#persona-main select {
+    padding: 10px;
+    font-size: 1rem;
+    margin: 20px 0;
+}
+
+#persona-main table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+#persona-main th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+/* Continue Button */
+#continue-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#continue-button[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* --------------------- */
+/* Criterion Page Styles */
+/* --------------------- */
+
+#criterion-container {
+    margin-top: 20px;
+}
+
+.stage-container {
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+}
+
+.stage-container:hover {
+    background-color: #f1f1f1;
+}
+
+.stage-container.selected {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+#navigation-buttons {
+    margin-top: 20px;
+}
+
+#calculate-button {
+    margin-top: 20px;
+}
+
+/* Result Section */
+#total-score, #recommendation {
+    font-size: 18px;
+    color: #333;
+}
+
+#progress-bar-container {
+    width: 100%;
+    background-color: #ccc;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+#progress-bar {
+    width: 0;
+    height: 25px;
+    background-color: #4CAF50;
+    border-radius: 5px;
+}
