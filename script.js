@@ -373,13 +373,19 @@ function adjustWeights() {
 // Display the current criterion
 function displayCriterion() {
     var container = document.getElementById("criterion-container");
+    
+    if (!container) {
+        console.error("Element with id 'criterion-container' not found");
+        return;
+    }
+
     container.innerHTML = ""; // Clear previous content
 
     var criterion = criteria[currentCriterionIndex];
 
-  // Update criterion title and description
-  document.getElementById("criterion-title").textContent = criterion.name;
-  document.getElementById("criterion-full-description").textContent = criterion.fullDescription;
+    // Update criterion title and description
+    document.getElementById("criterion-title").textContent = criterion.name;
+    document.getElementById("criterion-full-description").textContent = criterion.fullDescription;
 
     // Create 6 clickable stage containers
     for (var i = 1; i <= 6; i++) {
@@ -415,6 +421,7 @@ function displayCriterion() {
     // Update progress bar
     updateProgressBar();
 }
+
 
 // Function to update the progress bar
 function updateProgressBar() {
