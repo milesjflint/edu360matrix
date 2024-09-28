@@ -13,8 +13,14 @@ function checkPersonaSelection() {
     }
 }
 
-// Function to navigate to the next page (e.g., CriteronPage.html)
+// Function to navigate to the CriteronPage and store the selected persona
 function goToNextPage() {
+    var persona = document.getElementById("persona-select").value;
+
+    // Save the selected persona in localStorage
+    localStorage.setItem('selectedPersona', persona);
+
+    // Redirect to CriteronPage.html
     window.location.href = 'CriteronPage.html';
 }
 
