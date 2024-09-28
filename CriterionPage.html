@@ -3,51 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criterion Evaluation</title>
+    <title>Criterion Page</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script> <!-- Use defer to ensure it runs after DOM is ready -->
 </head>
 <body>
 
     <header>
         <h1>Criterion Evaluation</h1>
         <!-- Display the selected persona -->
-        <h2 id="selected-persona"></h2>
+        <h2 id="selected-persona">You're answering as: </h2>
     </header>
 
-  <!-- Criterion Title and Description -->
-  <h2>2. Please select an answer below</h2>
-  <div>
-      <h3 id="criterion-title">Criterion Title</h3>
-      <p id="criterion-full-description">This is a description of the criterion. It will be updated based on the selected criterion.</p>
-  </div>
+    <!-- Criterion Title and Description -->
+    <h2>2. Please select an answer below</h2>
+    <div>
+        <h3 id="criterion-title">Criterion Title</h3>
+        <p id="criterion-full-description">This is a description of the criterion. It will be updated based on the selected criterion.</p>
+    </div>
 
-  <!-- Criterion Display -->
+    <!-- Criterion Display -->
+    <div id="criterion-container">
+        <!-- Criterion details will be injected here -->
+    </div>
 
-  <div id="criterion-container">
-      <!-- Criterion details will be injected here -->
-  </div>
+    <!-- Progress Bar -->
+    <div>
+        <h3>Progress:</h3>
+        <progress id="progress-bar" value="0" max="100" style="width: 100%;"></progress>
+        <p id="progress-text">0%</p>
+    </div>
 
+    <!-- Navigation Buttons -->
+    <div id="navigation-buttons">
+        <button id="prev-button" onclick="prevCriterion()" disabled>Previous</button>
+        <button id="next-button" onclick="nextCriterion()">Next</button>
+    </div>
 
-  <!-- Progress Bar -->
-  <div>
-    <h3>Progress:</h3>
-    <progress id="progress-bar" value="0" max="100" style="width: 100%;"></progress>
-    <p id="progress-text">0%</p>
-  </div>
+    <!-- Calculate button -->
+    <div>
+        <button id="calculate-button" onclick="calculateScore()" style="display:none;">Calculate Score</button>
+    </div>
 
+    <footer>
+        <p>&copy; 2024 Miles Flint. All Rights Reserved.</p>
+    </footer>
 
-  <!-- Navigation Buttons -->
-  <div id="navigation-buttons">
-    <button id="prev-button" onclick="prevCriterion()" disabled>Previous</button>
-    <button id="next-button" onclick="nextCriterion()">Next</button>
-  </div>
-
-<!-- Calculate button on CriteronPage.html -->
-<div>
-    <button id="calculate-button" onclick="calculateScore()">Calculate Score</button>
-</div>
-
-  <script src="script.js"></script>
 </body>
-
 </html>
