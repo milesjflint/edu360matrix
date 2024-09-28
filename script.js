@@ -31,24 +31,25 @@ var weights = {
 };
 
 // Criteria list (shared between pages)
-var criteria = [
-    "Educational Effectiveness (EE)",
-    "Curriculum Alignment (CUA)",
-    "Student Engagement and Outcomes (SEO)",
-    "Personalization and Adaptive Learning (PAL)",
-    "Accessibility (ACC)",
-    "Technology Literacy Requirements (TLR)",
-    "Financial Considerations (FIN)",
-    "Scalability and Economies of Scale (SES)",
-    "Technological Readiness (TR)",
-    "Standardization and Compatibility (SC)",
-    "Ethical and Data Considerations (EDC)",
-    "Ecosystem Support and Network Effects (ES)",
-    "Professional Development Needs (PD)",
-    "Facilitating Conditions (FAC)",
-    "Strategic Partnerships (SP)",
-    "Change Management and Cultural Acceptance (CMCA)"
+var criteria = [ 
+    { name: "Educational Effectiveness (EE)" },
+    { name: "Curriculum Alignment (CUA)" },
+    { name: "Student Engagement and Outcomes (SEO)" },
+    { name: "Personalization and Adaptive Learning (PAL)" },
+    { name: "Accessibility (ACC)" },
+    { name: "Technology Literacy Requirements (TLR)" },
+    { name: "Financial Considerations (FIN)" },
+    { name: "Scalability and Economies of Scale (SES)" },
+    { name: "Technological Readiness (TR)" },
+    { name: "Standardization and Compatibility (SC)" },
+    { name: "Ethical and Data Considerations (EDC)" },
+    { name: "Ecosystem Support and Network Effects (ES)" },
+    { name: "Professional Development Needs (PD)" },
+    { name: "Facilitating Conditions (FAC)" },
+    { name: "Strategic Partnerships (SP)" },
+    { name: "Change Management and Cultural Acceptance (CMCA)" }
 ];
+
 
 // PERSONA PAGE 
 if (document.title === "Select Your Persona") {
@@ -61,12 +62,13 @@ if (document.title === "Select Your Persona") {
     criteria.forEach((criterion, index) => {
         const row = document.createElement('tr');
 
+        // Display the criterion name properly
         const criteriaCell = document.createElement('td');
-        criteriaCell.textContent = criterion.name;  // Use criterion.name instead of just criterion
+        criteriaCell.textContent = criterion.name;  // Use criterion.name to avoid [object Object]
         criteriaCell.setAttribute('title', criteriaDescriptions[criterion.name]); // Tooltip
-
         row.appendChild(criteriaCell);
 
+        // Loop through each persona and display the weights
         Object.keys(weights).forEach((persona) => {
             const weightCell = document.createElement('td');
             weightCell.textContent = weights[persona][index]; // Add corresponding weight
@@ -76,7 +78,7 @@ if (document.title === "Select Your Persona") {
         tableBody.appendChild(row);
     });
 
-    applyTooltips();
+    applyTooltips();  // Reapply tooltips for the updated table
         highlightColumn(persona);
     }
 
