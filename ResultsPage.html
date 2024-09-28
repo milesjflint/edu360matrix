@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Results</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Your Results</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>Summary</h2>
+            <p id="display-persona"></p> <!-- To display the selected persona -->
+            <p id="display-score"></p>    <!-- To display the total score -->
+            <p id="display-recommendation"></p> <!-- To display the recommendation -->
+        </section>
+
+        <section>
+            <button onclick="window.location.href='PersonaPage.html'">Start Over</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Tech Evaluation Tool. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Script to display the results -->
+    <script>
+        window.onload = function() {
+            // Retrieve persona, total score, and recommendation from localStorage
+            var persona = localStorage.getItem('selectedPersona');
+            var totalScore = localStorage.getItem('totalScore');
+            var recommendation = localStorage.getItem('recommendation');
+
+            // Display the persona
+            document.getElementById('display-persona').innerText = "You answered as: " + (persona ? persona : "Unknown persona");
+
+            // Display the total score
+            document.getElementById('display-score').innerText = "Your total score is: " + totalScore;
+
+            // Display the recommendation
+            document.getElementById('display-recommendation').innerText = "Recommendation: " + recommendation;
+        }
+    </script>
+</body>
+</html>
