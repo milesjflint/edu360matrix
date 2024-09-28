@@ -1,6 +1,5 @@
-// PERSONA PAGE 
-// Descriptions for tooltips
-var criteriaDescriptions = {
+// Descriptions for tooltips (shared between pages)
+var criteriaDescriptions = 
     "Educational Effectiveness (EE)": "Measures how well the technology improves learning outcomes.",
     "Curriculum Alignment (CUA)": "Assesses how closely the technology aligns with the curriculum.",
     "Student Engagement and Outcomes (SEO)": "Tracks the technology's impact on student engagement and performance.",
@@ -19,8 +18,8 @@ var criteriaDescriptions = {
     "Change Management and Cultural Acceptance (CMCA)": "Assesses how well the technology fits into organizational culture and readiness for change."
 };
 
-// Weights for each persona
-var weights = {
+// Weights for each persona (shared between pages)
+var weights = {     
     "Primary Students": [5, 4, 5, 5, 5, 3, 5, 3, 3, 2, 2, 3, 1, 3, 1, 3],
     "Secondary Students": [5, 5, 5, 5, 5, 4, 5, 4, 4, 4, 4, 4, 2, 4, 2, 4],
     "Tertiary Students": [5, 4, 5, 5, 5, 4, 4, 4, 4, 4, 5, 4, 2, 4, 3, 4],
@@ -31,8 +30,8 @@ var weights = {
     "Administrators": [5, 5, 5, 4, 5, 4, 5, 5, 5, 5, 5, 4, 4, 5, 5, 5]
 };
 
-// Criteria list (only names, not objects)
-var criteria = [
+// Criteria list (shared between pages)
+var criteria = [ 
     "Educational Effectiveness (EE)",
     "Curriculum Alignment (CUA)",
     "Student Engagement and Outcomes (SEO)",
@@ -48,146 +47,140 @@ var criteria = [
     "Professional Development Needs (PD)",
     "Facilitating Conditions (FAC)",
     "Strategic Partnerships (SP)",
-    "Change Management and Cultural Acceptance (CMCA)"
-];
+    "Change Management and Cultural Acceptance (CMCA)"];
 
-// Ensure the table is populated when the page loads
-window.onload = populateTable;
+// Global variables for criterion display
+var currentCriterionIndex = 0;
+var userStages = new Array(criteria.length).fill(1); // Default stage 1 for all criteria
+var selectedWeights = weights["Primary Students"]; // Default persona weights
 
-function populateTable() {
-    const tableBody = document.getElementById('table-body');
-    tableBody.innerHTML = ''; // Clear the table initially
 
-    criteria.forEach((criterion, index) => {
-        const row = document.createElement('tr');
 
-        const criteriaCell = document.createElement('td');
-        criteriaCell.textContent = criterion;  // Display the criterion name
-        criteriaCell.setAttribute('title', criteriaDescriptions[criterion]); // Tooltip
+// PERSONA PAGE 
+if (document.title === "Select Your Persona") {
+    window.onload = populateTable;
 
-        row.appendChild(criteriaCell);
+    function populateTable() {
+        const tableBody = document.getElementById('table-body');
+        tableBody.innerHTML = ''; // Clear the table initially
 
-        Object.keys(weights).forEach((persona) => {
-            const weightCell = document.createElement('td');
-            weightCell.textContent = weights[persona][index]; // Add corresponding weight
-            row.appendChild(weightCell);
+        criteria.forEach((criterion, index) => {
+            const row = document.createElement('tr');
+
+            const criteriaCell = document.createElement('td');
+            criteriaCell.textContent = criterion;  // Display the criterion name
+            criteriaCell.setAttribute('title', criteriaDescriptions[criterion]); // Tooltip
+
+            row.appendChild(criteriaCell);
+
+            Object.keys(weights).forEach((persona) => {
+                const weightCell = document.createElement('td');
+                weightCell.textContent = weights[persona][index]; // Add corresponding weight
+                row.appendChild(weightCell);
+            });
+
+            tableBody.appendChild(row);
         });
 
-        tableBody.appendChild(row);
-    });
-
-    // Apply tooltips after creating the table
-    applyTooltips();
-}
-
-
-// Sorting and highlighting
-function sortTableByPersona() {
-    const persona = document.getElementById('persona-select').value;
-    const continueButton = document.getElementById('continue-button');
-
-    if (persona !== "") {
-        continueButton.disabled = false; // Enable the continue button
-        highlightColumn(persona);  // Call the column highlighting function
-    } else {
-        continueButton.disabled = true; // Keep it disabled if no persona is selected
+        applyTooltips();
     }
 
-    // Get the weights for the selected persona and sort the table
-    const personaWeights = weights[persona];
+    function sortTableByPersona() {
+        const persona = document.getElementById('persona-select').value;
+        const continueButton = document.getElementById('continue-button');
 
-    const data = criteria.map((criterion, index) => ({
-        criterion,
-        weight: personaWeights[index]
-    }));
+        if (persona !== "") {
+            continueButton.disabled = false; // Enable the continue button
+            highlightColumn(persona);  // Highlight the selected persona column
+        } else {
+            continueButton.disabled = true; // Keep it disabled if no persona is selected
+        }
 
-    data.sort((a, b) => b.weight - a.weight); // Sort by weight
+        const personaWeights = weights[persona];
 
-    const tableBody = document.getElementById('table-body');
-    tableBody.innerHTML = ''; // Clear table body
+        const data = criteria.map((criterion, index) => ({
+            criterion,
+            weight: personaWeights[index]
+        }));
 
-    data.forEach(item => {
-        const row = document.createElement('tr');
+        data.sort((a, b) => b.weight - a.weight); // Sort by weight
 
-        const criteriaCell = document.createElement('td');
-        criteriaCell.textContent = item.criterion;
-        criteriaCell.setAttribute('title', criteriaDescriptions[item.criterion]); // Tooltip
-        row.appendChild(criteriaCell);
+        const tableBody = document.getElementById('table-body');
+        tableBody.innerHTML = ''; // Clear table body
 
-        Object.keys(weights).forEach(personaKey => {
-            const weightCell = document.createElement('td');
-            weightCell.textContent = weights[personaKey][criteria.indexOf(item.criterion)];
-            row.appendChild(weightCell);
+        data.forEach(item => {
+            const row = document.createElement('tr');
+
+            const criteriaCell = document.createElement('td');
+            criteriaCell.textContent = item.criterion;
+            criteriaCell.setAttribute('title', criteriaDescriptions[item.criterion]); // Tooltip
+            row.appendChild(criteriaCell);
+
+            Object.keys(weights).forEach(personaKey => {
+                const weightCell = document.createElement('td');
+                weightCell.textContent = weights[personaKey][criteria.indexOf(item.criterion)];
+                row.appendChild(weightCell);
+            });
+
+            tableBody.appendChild(row);
         });
 
-        tableBody.appendChild(row);
-    });
+        applyTooltips(); // Reapply tooltips after sorting
+    }
 
-    // Reapply tooltips (in case they were cleared)
-    applyTooltips();
-}
+    function highlightColumn(persona) {
+        document.querySelectorAll('td').forEach(cell => cell.classList.remove('highlight'));
 
-// Function to highlight the selected persona column
-function highlightColumn(persona) {
-    // Clear existing highlights
-    document.querySelectorAll('td').forEach(cell => cell.classList.remove('highlight'));
-
-    // Find the index of the persona
-    const headerCells = document.querySelectorAll('#persona-table th');
-    let columnIndex = -1;
-    headerCells.forEach((cell, index) => {
-        if (cell.textContent.trim() === persona) {
-            columnIndex = index;
-        }
-    });
-
-    // Highlight the corresponding column
-    if (columnIndex > -1) {
-        document.querySelectorAll(`#persona-table tr`).forEach(row => {
-            const cell = row.querySelectorAll('td')[columnIndex];
-            if (cell) {
-                cell.classList.add('highlight');
+        const headerCells = document.querySelectorAll('#persona-table th');
+        let columnIndex = -1;
+        headerCells.forEach((cell, index) => {
+            if (cell.textContent.trim() === persona) {
+                columnIndex = index;
             }
         });
+
+        if (columnIndex > -1) {
+            document.querySelectorAll(`#persona-table tr`).forEach(row => {
+                const cell = row.querySelectorAll('td')[columnIndex];
+                if (cell) {
+                    cell.classList.add('highlight');
+                }
+            });
+        }
     }
-}
 
+    function applyTooltips() {
+        document.querySelectorAll('[title]').forEach(item => {
+            item.addEventListener('mouseover', function () {
+                const tooltipText = this.getAttribute('title');
+                const tooltip = document.createElement('div');
+                tooltip.className = 'tooltip';
+                tooltip.innerHTML = tooltipText;
+                document.body.appendChild(tooltip);
 
-// Function to apply tooltips
-function applyTooltips() {
-    document.querySelectorAll('[title]').forEach(item => {
-        item.addEventListener('mouseover', function () {
-            const tooltipText = this.getAttribute('title');
-            const tooltip = document.createElement('div');
-            tooltip.className = 'tooltip';
-            tooltip.innerHTML = tooltipText;
-            document.body.appendChild(tooltip);
+                const rect = this.getBoundingClientRect();
+                tooltip.style.top = `${rect.top + window.scrollY - 30}px`;
+                tooltip.style.left = `${rect.left + window.scrollX}px`;
 
-            // Positioning
-            const rect = this.getBoundingClientRect();
-            tooltip.style.top = `${rect.top + window.scrollY - 30}px`;
-            tooltip.style.left = `${rect.left + window.scrollX}px`;
-
-            this.addEventListener('mouseout', function () {
-                tooltip.remove();
+                this.addEventListener('mouseout', function () {
+                    tooltip.remove();
+                });
             });
         });
-    });
-}
+    }
 
-function goToNextPage() {
-    const persona = document.getElementById('persona-select').value;
-    
-    if (persona) {
-        // Save the selected persona to localStorage
-        localStorage.setItem('selectedPersona', persona);
+    function goToNextPage() {
+        const persona = document.getElementById('persona-select').value;
 
-        // Redirect to the CriterionPage
-        window.location.href = 'CriterionPage.html';
-    } else {
-        alert("Please select a persona before proceeding.");
+        if (persona) {
+            localStorage.setItem('selectedPersona', persona); // Save to localStorage
+            window.location.href = 'CriterionPage.html';
+        } else {
+            alert("Please select a persona before proceeding.");
+        }
     }
 }
+
 
 
 // CRITERION PAGE
@@ -200,30 +193,13 @@ window.onload = function() {
     if (selectedPersona) {
         // Display the selected persona on the page
         document.getElementById('selected-persona').innerText = "You are answering as a: " + selectedPersona;
+        adjustWeights();  // Adjust the weights based on the persona
+        displayCriterion();  // Display the first criterion
     } else {
         // If there's no persona, redirect back to PersonaPage to select one
         window.location.href = 'PersonaPage.html';
     }
-
-    // Initialize the criterion display based on the selected persona
-    adjustWeights(); // This function will now use the selected persona for weights
-    displayCriterion();
 }
-
-
-// Define the weights for each persona
-var weights = {
-  "Primary Students": [5, 4, 5, 5, 5, 3, 5, 3, 3, 2, 2, 3, 1, 3, 1, 3],
-  Parents: [5, 4, 5, 5, 5, 3, 5, 3, 4, 3, 5, 3, 2, 4, 2, 3],
-  "Secondary Students": [5, 5, 5, 5, 5, 4, 5, 4, 4, 4, 4, 4, 2, 4, 2, 4],
-  "Secondary Teachers": [5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 5, 4, 5, 4, 4, 4],
-  "Primary Teachers": [5, 5, 5, 4, 5, 3, 4, 3, 4, 3, 5, 4, 5, 4, 3, 4],
-  "Tertiary Students": [5, 4, 5, 5, 5, 4, 4, 4, 4, 4, 5, 4, 2, 4, 3, 4],
-  "University Lecturers": [5, 4, 5, 4, 5, 4, 3, 3, 4, 4, 5, 4, 5, 4, 5, 4],
-  Administrators: [5, 5, 5, 4, 5, 4, 5, 5, 5, 5, 5, 4, 4, 5, 5, 5],
-}
-
-var selectedWeights = weights["Primary Students"] // Default to Primary Students persona
 
 // Define the criteria and their stage descriptions
 var criteria = [
