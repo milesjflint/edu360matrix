@@ -1,5 +1,3 @@
-
-
 // PERSONA PAGE 
 // Descriptions for tooltips
 var criteriaDescriptions = {
@@ -33,7 +31,7 @@ var weights = {
     "Administrators": [5, 5, 5, 4, 5, 4, 5, 5, 5, 5, 5, 4, 4, 5, 5, 5]
 };
 
-// Criteria list
+// Criteria list (only names, not objects)
 var criteria = [
     "Educational Effectiveness (EE)",
     "Curriculum Alignment (CUA)",
@@ -64,7 +62,7 @@ function populateTable() {
         const row = document.createElement('tr');
 
         const criteriaCell = document.createElement('td');
-        criteriaCell.textContent = criterion;
+        criteriaCell.textContent = criterion;  // Display the criterion name (not an object)
         criteriaCell.setAttribute('title', criteriaDescriptions[criterion]); // Tooltip
 
         row.appendChild(criteriaCell);
@@ -79,54 +77,42 @@ function populateTable() {
     });
 }
 
+// Sorting and highlighting
 function sortTableByPersona() {
     const persona = document.getElementById('persona-select').value;
     const continueButton = document.getElementById('continue-button');
 
-    // Enable or disable continue button
     if (persona !== "") {
-        continueButton.disabled = false;
+        continueButton.disabled = false; // Enable the continue button
+        highlightColumn(persona);  // Call the column highlighting function
     } else {
-        continueButton.disabled = true;
+        continueButton.disabled = true; // Keep it disabled if no persona is selected
     }
 
-    // Get the weights for the selected persona
+    // Get the weights for the selected persona and sort the table
     const personaWeights = weights[persona];
 
-    // Combine criteria and weights into an array of objects
     const data = criteria.map((criterion, index) => ({
         criterion,
         weight: personaWeights[index]
     }));
 
-    // Sort the data by weight (descending)
-    data.sort((a, b) => b.weight - a.weight);
+    data.sort((a, b) => b.weight - a.weight); // Sort by weight
 
-    // Update the table body
     const tableBody = document.getElementById('table-body');
-    tableBody.innerHTML = ''; // Clear current table rows
+    tableBody.innerHTML = ''; // Clear table body
 
-    // Get all persona column index based on header
-    const personaHeaders = Array.from(document.querySelectorAll('#persona-table thead th'));
-    const personaIndex = personaHeaders.findIndex(header => header.textContent === persona) + 1;
-
-    // Remove highlight from all columns
-    removeColumnHighlight();
-
-    data.forEach((item) => {
+    data.forEach(item => {
         const row = document.createElement('tr');
+
         const criteriaCell = document.createElement('td');
         criteriaCell.textContent = item.criterion;
-        criteriaCell.setAttribute('title', criteriaDescriptions[item.criterion]);
-
+        criteriaCell.setAttribute('title', criteriaDescriptions[item.criterion]); // Tooltip
         row.appendChild(criteriaCell);
 
-        Object.keys(weights).forEach((personaKey, index) => {
+        Object.keys(weights).forEach(personaKey => {
             const weightCell = document.createElement('td');
             weightCell.textContent = weights[personaKey][criteria.indexOf(item.criterion)];
-            if (index === personaIndex - 1) {
-                weightCell.classList.add('highlight'); // Highlight the selected persona column
-            }
             row.appendChild(weightCell);
         });
 
@@ -134,12 +120,26 @@ function sortTableByPersona() {
     });
 }
 
-// Function to remove highlight from all columns
-function removeColumnHighlight() {
-    const highlightedCells = document.querySelectorAll('.highlight');
-    highlightedCells.forEach(cell => {
-        cell.classList.remove('highlight');
+// Function to highlight the selected persona column
+function highlightColumn(persona) {
+    // Clear existing highlights
+    document.querySelectorAll('td').forEach(cell => cell.classList.remove('highlight'));
+
+    // Find the index of the persona
+    const headerCells = document.querySelectorAll('#persona-table th');
+    let columnIndex = -1;
+    headerCells.forEach((cell, index) => {
+        if (cell.textContent.trim() === persona) {
+            columnIndex = index;
+        }
     });
+
+    // Highlight the corresponding column
+    if (columnIndex > -1) {
+        document.querySelectorAll(`#persona-table tr td:nth-child(${columnIndex + 1})`).forEach(cell => {
+            cell.classList.add('highlight');
+        });
+    }
 }
 
 function goToNextPage() {
@@ -148,12 +148,9 @@ function goToNextPage() {
     // Save the selected persona in localStorage
     localStorage.setItem('selectedPersona', persona);
 
-    // Check if CriterionPage.html is in the same directory or a subdirectory
-    window.location.href = './CriterionPage.html'; // Ensure the correct relative path
+    // Redirect to CriterionPage.html
+    window.location.href = './CriterionPage.html';
 }
-
-
-
 
 
 // CRITERION PAGE
