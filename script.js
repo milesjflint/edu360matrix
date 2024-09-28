@@ -120,6 +120,7 @@ function sortTableByPersona() {
     });
 }
 
+
 function goToNextPage() {
     const persona = document.getElementById('persona-select').value;
 
