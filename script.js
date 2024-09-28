@@ -169,16 +169,39 @@ function applyTooltips() {
 
 function goToNextPage() {
     const persona = document.getElementById('persona-select').value;
+    
+    if (persona) {
+        // Save the selected persona to localStorage
+        localStorage.setItem('selectedPersona', persona);
 
-    // Save the selected persona in localStorage
-    localStorage.setItem('selectedPersona', persona);
-
-    // Redirect to CriterionPage.html
-    window.location.href = './CriterionPage.html';
+        // Redirect to the CriterionPage
+        window.location.href = 'CriterionPage.html';
+    } else {
+        alert("Please select a persona before proceeding.");
+    }
 }
 
 
 // CRITERION PAGE
+
+window.onload = function() {
+    // Retrieve the selected persona from localStorage
+    const selectedPersona = localStorage.getItem('selectedPersona');
+
+    // Check if the persona exists
+    if (selectedPersona) {
+        // Display the selected persona on the page
+        document.getElementById('selected-persona').innerText = "You are answering as a: " + selectedPersona;
+    } else {
+        // If there's no persona, redirect back to PersonaPage to select one
+        window.location.href = 'PersonaPage.html';
+    }
+
+    // Initialize the criterion display based on the selected persona
+    adjustWeights(); // This function will now use the selected persona for weights
+    displayCriterion();
+}
+
 
 // Define the weights for each persona
 var weights = {
@@ -411,9 +434,15 @@ var userStages = new Array(criteria.length).fill(1) // Default stage 1 for all c
 
 // Adjust weights when the user selects a persona
 function adjustWeights() {
-  var persona = document.getElementById("persona-select").value
-  selectedWeights = weights[persona]
+    const persona = localStorage.getItem('selectedPersona'); // Get the selected persona from localStorage
+    
+    if (persona) {
+        selectedWeights = weights[persona]; // Use the retrieved persona to adjust weights
+    } else {
+        console.error("No persona found in localStorage.");
+    }
 }
+
 
 // Display the current criterion
 function displayCriterion() {
