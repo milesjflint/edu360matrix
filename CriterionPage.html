@@ -1,28 +1,18 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>replit</title>
-  <link href="style.css" rel="stylesheet" type="text/css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criterion Evaluation</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <!-- Persona Selection -->
-  <div>
-    <h2>1. Please Select a Persona</h2>
-    <select id="persona-select" onchange="adjustWeights()">
-      <option value="Primary Students">Primary Students</option>
-      <option value="Parents">Parents</option>
-      <option value="Secondary Students">Secondary Students</option>
-      <option value="Secondary Teachers">Secondary Teachers</option>
-      <option value="Primary Teachers">Primary Teachers</option>
-      <option value="Tertiary Students">Tertiary Students</option>
-      <option value="University Lecturers">University Lecturers</option>
-      <option value="Administrators">Administrators</option>
-    </select>
-  </div>
+
+    <header>
+        <h1>Criterion Evaluation</h1>
+        <!-- Display the selected persona -->
+        <h2 id="selected-persona"></h2>
+    </header>
 
   <!-- Criterion Title and Description -->
   <h2>2. Please select an answer below</h2>
