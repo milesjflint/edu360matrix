@@ -131,6 +131,7 @@ function goToNextPage() {
 }
 
 
+
 // CRITERION PAGE
 
 // Define the weights for each persona
