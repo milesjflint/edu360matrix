@@ -33,7 +33,7 @@ var weights = {
     "Administrators": [5, 5, 5, 4, 5, 4, 5, 5, 5, 5, 5, 4, 4, 5, 5, 5]
 };
 
-// Criteria list (order matches the weights array)
+// Criteria list
 var criteria = [
     "Educational Effectiveness (EE)",
     "Curriculum Alignment (CUA)",
@@ -53,75 +53,75 @@ var criteria = [
     "Change Management and Cultural Acceptance (CMCA)"
 ];
 
-// Function to update the table based on persona selection and highlight selected rows
-function updateTableAndHighlight() {
-    var persona = document.getElementById("persona-select").value;
-    var continueButton = document.getElementById("continue-button");
-    
-    if (persona !== "") {
-        continueButton.disabled = false;
-    } else {
-        continueButton.disabled = true;
-    }
+// Ensure the table is populated when the page loads
+window.onload = populateTable;
 
-    // Get the weights for the selected persona
-    var personaWeights = weights[persona];
+function populateTable() {
+    const tableBody = document.getElementById('table-body');
+    tableBody.innerHTML = ''; // Clear the table initially
 
-    // Combine criteria and weights into an array of objects
-    var data = criteria.map(function(criterion, index) {
-        return {
-            criterion: criterion,
-            weight: personaWeights[index]
-        };
-    });
+    criteria.forEach((criterion, index) => {
+        const row = document.createElement('tr');
 
-    // Sort the data by weight (descending)
-    data.sort(function(a, b) {
-        return b.weight - a.weight;
-    });
+        const criteriaCell = document.createElement('td');
+        criteriaCell.textContent = criterion;
+        criteriaCell.setAttribute('title', criteriaDescriptions[criterion]); // Tooltip
 
-    // Update the table body
-    var tableBody = document.getElementById("table-body");
-    tableBody.innerHTML = ""; // Clear current table rows
-
-    data.forEach(function(item) {
-        var row = document.createElement("tr");
-        var criteriaCell = document.createElement("td");
-        var weightCell = document.createElement("td");
-
-        // Set cell content
-        criteriaCell.textContent = item.criterion;
-        weightCell.textContent = item.weight;
-
-        // Add tooltip to criteria cell
-        criteriaCell.setAttribute("title", criteriaDescriptions[item.criterion]);
-
-        // Add click event to highlight row
-        row.onclick = function() {
-            clearHighlighting();
-            row.classList.add("highlight");
-        };
-
-        // Append cells to row
         row.appendChild(criteriaCell);
-        row.appendChild(weightCell);
 
-        // Append row to table body
+        Object.keys(weights).forEach((persona) => {
+            const weightCell = document.createElement('td');
+            weightCell.textContent = weights[persona][index]; // Add corresponding weight
+            row.appendChild(weightCell);
+        });
+
         tableBody.appendChild(row);
     });
 }
 
-// Function to clear row highlighting
-function clearHighlighting() {
-    var rows = document.querySelectorAll("#persona-table tr");
-    rows.forEach(function(row) {
-        row.classList.remove("highlight");
+function sortTableByPersona() {
+    const persona = document.getElementById('persona-select').value;
+    const continueButton = document.getElementById('continue-button');
+    
+    if (persona !== "") {
+        continueButton.disabled = false; // Enable the continue button
+    } else {
+        continueButton.disabled = true; // Keep it disabled if no persona is selected
+    }
+
+    // Get the weights for the selected persona and sort the table
+    const personaWeights = weights[persona];
+
+    const data = criteria.map((criterion, index) => ({
+        criterion,
+        weight: personaWeights[index]
+    }));
+
+    data.sort((a, b) => b.weight - a.weight); // Sort by weight
+
+    const tableBody = document.getElementById('table-body');
+    tableBody.innerHTML = ''; // Clear table body
+
+    data.forEach(item => {
+        const row = document.createElement('tr');
+
+        const criteriaCell = document.createElement('td');
+        criteriaCell.textContent = item.criterion;
+        criteriaCell.setAttribute('title', criteriaDescriptions[item.criterion]); // Tooltip
+        row.appendChild(criteriaCell);
+
+        Object.keys(weights).forEach(personaKey => {
+            const weightCell = document.createElement('td');
+            weightCell.textContent = weights[personaKey][criteria.indexOf(item.criterion)];
+            row.appendChild(weightCell);
+        });
+
+        tableBody.appendChild(row);
     });
 }
 
-// Function to navigate to the next page (CriteronPage)
 function goToNextPage() {
-    var persona = document.getElementById("persona-select").value;
+    const persona = document.getElementById('persona-select').value;
 
     // Save the selected persona in localStorage
     localStorage.setItem('selectedPersona', persona);
@@ -129,6 +129,7 @@ function goToNextPage() {
     // Redirect to CriteronPage.html
     window.location.href = 'CriteronPage.html';
 }
+
 
 
 
