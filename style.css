@@ -105,12 +105,13 @@ button:disabled {
     background-color: #f2f2f2;
 }
 
-/* Highlight selected rows */
+/* Highlight the selected persona's column */
 .highlight {
     background-color: #4CAF50;
     color: white;
     font-weight: bold;
 }
+
 
 /* Tooltip styling */
 td[title] {
