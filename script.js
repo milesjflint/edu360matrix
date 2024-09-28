@@ -55,29 +55,28 @@ if (document.title === "Select Your Persona") {
     window.onload = populateTable;
 
     function populateTable() {
-        const persona = document.getElementById('persona-select').value || 'Primary Students';
-        const tableBody = document.getElementById('table-body');
-        tableBody.innerHTML = ''; // Clear the table initially
+    const tableBody = document.getElementById('table-body');
+    tableBody.innerHTML = ''; // Clear the table initially
 
-        criteria.forEach((criterion, index) => {
-            const row = document.createElement('tr');
+    criteria.forEach((criterion, index) => {
+        const row = document.createElement('tr');
 
-            const criteriaCell = document.createElement('td');
-            criteriaCell.textContent = criterion;  // Display the criterion name
-            criteriaCell.setAttribute('title', criteriaDescriptions[criterion]); // Tooltip
+        const criteriaCell = document.createElement('td');
+        criteriaCell.textContent = criterion.name;  // Use criterion.name instead of just criterion
+        criteriaCell.setAttribute('title', criteriaDescriptions[criterion.name]); // Tooltip
 
-            row.appendChild(criteriaCell);
+        row.appendChild(criteriaCell);
 
-            Object.keys(weights).forEach((personaKey) => {
-                const weightCell = document.createElement('td');
-                weightCell.textContent = weights[personaKey][index]; // Add corresponding weight
-                row.appendChild(weightCell);
-            });
-
-            tableBody.appendChild(row);
+        Object.keys(weights).forEach((persona) => {
+            const weightCell = document.createElement('td');
+            weightCell.textContent = weights[persona][index]; // Add corresponding weight
+            row.appendChild(weightCell);
         });
 
-        applyTooltips();
+        tableBody.appendChild(row);
+    });
+
+    applyTooltips();
         highlightColumn(persona);
     }
 
