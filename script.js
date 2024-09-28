@@ -455,11 +455,11 @@ function adjustWeights() {
 // Display the current criterion
 function displayCriterion() {
     var container = document.getElementById("criterion-container");
-    
-    if (!container) {
-        console.error("Element with id 'criterion-container' not found");
-        return;
-    }
+if (!container) {
+    console.error("Element with id 'criterion-container' not found");
+    return;
+}
+
 
     container.innerHTML = ""; // Clear previous content
 
