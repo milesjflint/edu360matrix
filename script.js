@@ -1,5 +1,5 @@
 // Descriptions for tooltips (shared between pages)
-var criteriaDescriptions = 
+var criteriaDescriptions = {
     "Educational Effectiveness (EE)": "Measures how well the technology improves learning outcomes.",
     "Curriculum Alignment (CUA)": "Assesses how closely the technology aligns with the curriculum.",
     "Student Engagement and Outcomes (SEO)": "Tracks the technology's impact on student engagement and performance.",
@@ -19,7 +19,7 @@ var criteriaDescriptions =
 };
 
 // Weights for each persona (shared between pages)
-var weights = {     
+var weights = {
     "Primary Students": [5, 4, 5, 5, 5, 3, 5, 3, 3, 2, 2, 3, 1, 3, 1, 3],
     "Secondary Students": [5, 5, 5, 5, 5, 4, 5, 4, 4, 4, 4, 4, 2, 4, 2, 4],
     "Tertiary Students": [5, 4, 5, 5, 5, 4, 4, 4, 4, 4, 5, 4, 2, 4, 3, 4],
@@ -31,7 +31,7 @@ var weights = {
 };
 
 // Criteria list (shared between pages)
-var criteria = [ 
+var criteria = [
     "Educational Effectiveness (EE)",
     "Curriculum Alignment (CUA)",
     "Student Engagement and Outcomes (SEO)",
@@ -47,20 +47,15 @@ var criteria = [
     "Professional Development Needs (PD)",
     "Facilitating Conditions (FAC)",
     "Strategic Partnerships (SP)",
-    "Change Management and Cultural Acceptance (CMCA)"];
-
-// Global variables for criterion display
-var currentCriterionIndex = 0;
-var userStages = new Array(criteria.length).fill(1); // Default stage 1 for all criteria
-var selectedWeights = weights["Primary Students"]; // Default persona weights
-
-
+    "Change Management and Cultural Acceptance (CMCA)"
+];
 
 // PERSONA PAGE 
 if (document.title === "Select Your Persona") {
     window.onload = populateTable;
 
     function populateTable() {
+        const persona = document.getElementById('persona-select').value || 'Primary Students';
         const tableBody = document.getElementById('table-body');
         tableBody.innerHTML = ''; // Clear the table initially
 
@@ -73,9 +68,9 @@ if (document.title === "Select Your Persona") {
 
             row.appendChild(criteriaCell);
 
-            Object.keys(weights).forEach((persona) => {
+            Object.keys(weights).forEach((personaKey) => {
                 const weightCell = document.createElement('td');
-                weightCell.textContent = weights[persona][index]; // Add corresponding weight
+                weightCell.textContent = weights[personaKey][index]; // Add corresponding weight
                 row.appendChild(weightCell);
             });
 
@@ -83,6 +78,7 @@ if (document.title === "Select Your Persona") {
         });
 
         applyTooltips();
+        highlightColumn(persona);
     }
 
     function sortTableByPersona() {
@@ -180,6 +176,7 @@ if (document.title === "Select Your Persona") {
         }
     }
 }
+
 
 
 
