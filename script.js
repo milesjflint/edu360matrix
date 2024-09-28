@@ -106,8 +106,8 @@ function sortTableByPersona() {
         const row = document.createElement('tr');
 
         const criteriaCell = document.createElement('td');
-        criteriaCell.textContent = item.criterion;
-        criteriaCell.setAttribute('title', criteriaDescriptions[item.criterion]); // Tooltip
+        criteriaCell.textContent = item.criterion.name; // Display criterion name
+        criteriaCell.setAttribute('title', criteriaDescriptions[item.criterion.name]); // Tooltip
         row.appendChild(criteriaCell);
 
         Object.keys(weights).forEach(personaKey => {
@@ -119,7 +119,6 @@ function sortTableByPersona() {
         tableBody.appendChild(row);
     });
 }
-
 
 function goToNextPage() {
     const persona = document.getElementById('persona-select').value;
