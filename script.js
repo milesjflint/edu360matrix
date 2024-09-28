@@ -82,41 +82,63 @@ function populateTable() {
 function sortTableByPersona() {
     const persona = document.getElementById('persona-select').value;
     const continueButton = document.getElementById('continue-button');
-    
+
+    // Enable or disable continue button
     if (persona !== "") {
-        continueButton.disabled = false; // Enable the continue button
+        continueButton.disabled = false;
     } else {
-        continueButton.disabled = true; // Keep it disabled if no persona is selected
+        continueButton.disabled = true;
     }
 
-    // Get the weights for the selected persona and sort the table
+    // Get the weights for the selected persona
     const personaWeights = weights[persona];
 
+    // Combine criteria and weights into an array of objects
     const data = criteria.map((criterion, index) => ({
         criterion,
         weight: personaWeights[index]
     }));
 
-    data.sort((a, b) => b.weight - a.weight); // Sort by weight
+    // Sort the data by weight (descending)
+    data.sort((a, b) => b.weight - a.weight);
 
+    // Update the table body
     const tableBody = document.getElementById('table-body');
-    tableBody.innerHTML = ''; // Clear table body
+    tableBody.innerHTML = ''; // Clear current table rows
 
-    data.forEach(item => {
+    // Get all persona column index based on header
+    const personaHeaders = Array.from(document.querySelectorAll('#persona-table thead th'));
+    const personaIndex = personaHeaders.findIndex(header => header.textContent === persona) + 1;
+
+    // Remove highlight from all columns
+    removeColumnHighlight();
+
+    data.forEach((item) => {
         const row = document.createElement('tr');
-
         const criteriaCell = document.createElement('td');
-        criteriaCell.textContent = item.criterion.name; // Display criterion name
-        criteriaCell.setAttribute('title', criteriaDescriptions[item.criterion.name]); // Tooltip
+        criteriaCell.textContent = item.criterion;
+        criteriaCell.setAttribute('title', criteriaDescriptions[item.criterion]);
+
         row.appendChild(criteriaCell);
 
-        Object.keys(weights).forEach(personaKey => {
+        Object.keys(weights).forEach((personaKey, index) => {
             const weightCell = document.createElement('td');
             weightCell.textContent = weights[personaKey][criteria.indexOf(item.criterion)];
+            if (index === personaIndex - 1) {
+                weightCell.classList.add('highlight'); // Highlight the selected persona column
+            }
             row.appendChild(weightCell);
         });
 
         tableBody.appendChild(row);
+    });
+}
+
+// Function to remove highlight from all columns
+function removeColumnHighlight() {
+    const highlightedCells = document.querySelectorAll('.highlight');
+    highlightedCells.forEach(cell => {
+        cell.classList.remove('highlight');
     });
 }
 
@@ -126,9 +148,10 @@ function goToNextPage() {
     // Save the selected persona in localStorage
     localStorage.setItem('selectedPersona', persona);
 
-    // Redirect to CriterionPage.html
-    window.location.href = 'CriterionPage.html';
+    // Check if CriterionPage.html is in the same directory or a subdirectory
+    window.location.href = './CriterionPage.html'; // Ensure the correct relative path
 }
+
 
 
 
