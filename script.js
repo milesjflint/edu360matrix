@@ -348,34 +348,31 @@ function prevCriterion() {
   }
 }
 
-// Calculate the total score and provide a recommendation
+// Function to calculate the total score and save it to localStorage
 function calculateScore() {
-  var totalScore = 0
+    var totalScore = 0;
+    
+    // Loop through each criterion
+    for (var i = 0; i < criteria.length; i++) {
+        var stage = userStages[i];  // This is the selected stage (1-6)
+        var weight = selectedWeights[i];  // The corresponding weight for the criterion
 
-  // Loop through each criterion
-  for (var i = 0; i < criteria.length; i++) {
-    var stage = userStages[i] // This is the selected stage (1-6)
-    var weight = selectedWeights[i] // The corresponding weight for the criterion
-
-    if (stage && weight) {
-      // Ensure both stage and weight are available
-      // Multiply the stage by the weight to get the score for this criterion
-      var criterionScore = stage * weight
-      totalScore += criterionScore // Add the criterion score to the total score
-    } else {
-      console.error(
-        `Error calculating score for criterion ${i}: stage or weight missing.`,
-      )
+        // Multiply the stage by the weight to get the score for this criterion
+        var criterionScore = stage * weight;
+        totalScore += criterionScore;  // Add the criterion score to the total score
     }
-  }
 
-  // Display the total score
-  document.getElementById("total-score").textContent = totalScore
+    // Get recommendation based on the total score
+    var recommendation = categorizeScore(totalScore);
 
-  // Get and display the recommendation
-  var recommendation = categorizeScore(totalScore)
-  document.getElementById("recommendation").textContent = recommendation
+    // Save the total score and recommendation in localStorage
+    localStorage.setItem('totalScore', totalScore);
+    localStorage.setItem('recommendation', recommendation);
+
+    // Redirect to the results page
+    window.location.href = 'ResultsPage.html';
 }
+
 
 // Provide recommendation based on the total score
 
