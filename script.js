@@ -126,8 +126,8 @@ function goToNextPage() {
     // Save the selected persona in localStorage
     localStorage.setItem('selectedPersona', persona);
 
-    // Redirect to CriteronPage.html
-    window.location.href = 'CriteronPage.html';
+    // Redirect to CriterionPage.html
+    window.location.href = 'CriterionPage.html';
 }
 
 
