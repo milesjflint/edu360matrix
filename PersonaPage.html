@@ -13,12 +13,12 @@
     </header>
 
     <main>
-        <!-- Dropdown for selecting a persona -->
         <section>
             <h2>Choose the role that best describes you</h2>
             <p>Please select your persona from the dropdown below to proceed.</p>
 
-            <select id="persona-select" onchange="checkPersonaSelection()">
+            <!-- Dropdown for selecting a persona -->
+            <select id="persona-select" onchange="updateTableAndHighlight()">
                 <option value="">See table below</option>
                 <option value="Primary Students">Primary Students</option>
                 <option value="Secondary Students">Secondary Students</option>
@@ -34,201 +34,18 @@
         <!-- Persona weighting table -->
         <section>
             <h3>Persona Weightings</h3>
-            <table border="1">
+            <table id="persona-table" border="1">
                 <thead>
                     <tr>
                         <th>Criteria</th>
-                        <th>Primary Students</th>
-                        <th>Secondary Students</th>
-                        <th>Tertiary Students</th>
-                        <th>Parents</th>
-                        <th>Primary Teachers</th>
-                        <th>Secondary Teachers</th>
-                        <th>University Lecturers</th>
-                        <th>Administrators</th>
+                        <th>Weight</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Educational Effectiveness (EE)</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Curriculum Alignment (CUA)</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>4</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Student Engagement and Outcomes (SEO)</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Personalization and Adaptive Learning (PAL)</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>4</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Accessibility (ACC)</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Technology Literacy Requirements (TLR)</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>3</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Financial Considerations (FIN)</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>3</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Scalability and Economies of Scale (SES)</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>3</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>3</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Technological Readiness (TR)</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Standardization and Compatibility (SC)</td>
-                        <td>2</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>3</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Ethical and Data Considerations (EDC)</td>
-                        <td>2</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Ecosystem Support and Network Effects (ES)</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Professional Development Needs (PD)</td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>2</td>
-                        <td>2</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Facilitating Conditions (FAC)</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Strategic Partnerships (SP)</td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Change Management and Cultural Acceptance (CMCA)</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>5</td>
-                    </tr>
+                <tbody id="table-body">
+                    <!-- Table rows will be dynamically injected here -->
                 </tbody>
             </table>
         </section>
-
 
         <!-- Continue Button (Initially disabled) -->
         <section>
@@ -237,11 +54,12 @@
     </main>
 
     <footer>
-        <p>&copy; 2024 Tech Evaluation Tool. All Rights Reserved.</p>
+        <p>&copy; 2024 Miles Flint. All Rights Reserved.</p>
     </footer>
 
-    <!-- External JS -->
+    <!-- Script to handle sorting, row highlighting, and tooltips -->
     <script src="script.js"></script>
 </body>
 </html>
+
 
